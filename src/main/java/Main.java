@@ -1,41 +1,46 @@
-import lombok.Getter;
-import lombok.Setter;
+import java.util.*;
 
-import java.nio.ByteBuffer;
-import java.util.List;
-import java.util.Scanner;
-import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
-// 注意类名必须为 Main, 不要有任何 package xxx 信息
 public class Main {
+    public int[] shortestPath(int[][] graph, int src) {
+        int V = graph.length;
+        int[] dist = new int[V];
+        Arrays.fill(dist, Integer.MAX_VALUE);
+        dist[src] = 0;
 
-    // 人
-    @Getter
-    @Setter
-    public static class Person {
-        // 获取姓名
-        // 姓名
-        private String name;
-        // 获取年龄
-        // 年龄
-        private int age;
-        // 构造方法
-        public Person(String name, int age) {
-            this.name = name;
-            this.age = age;
+        PriorityQueue<int[]> pq = new PriorityQueue<>((a, b) -> a[1] - b[1]);
+        pq.offer(new int[]{src, 0});
+
+        while (!pq.isEmpty()) {
+            int[] curr = pq.poll();
+            int u = curr[0];
+            if (curr[1] > dist[u]) continue; // 跳过旧数据
+
+            for (int v = 0; v < V; v++) {
+                if (graph[u][v] != 0) { // 存在边
+                    int newDist = dist[u] + graph[u][v];
+                    if (newDist < dist[v]) {
+                        dist[v] = newDist;
+                        pq.offer(new int[]{v, newDist});
+                    }
+                }
+            }
         }
+        return dist;
     }
-    public static void main(String[] args) throws InterruptedException {
-        List<Person> persons = List.of(
-                new Person("张三", 18),
-                new Person("李四", 19),
-                new Person("王五", 20)
-        );
-        Stream<Person> stream = persons.stream();
-        Integer reduce = stream.map(Person::getAge).reduce(0, Integer::sum);
-        TimeUnit.MINUTES.sleep(2);
-        System.out.println(reduce);
+
+    public static void main(String[] args) {
+        int[][] graph = {
+                {0, 4, 0, 0, 0, 0, 0, 8, 0},
+                {4, 0, 8, 0, 0, 0, 0, 11, 0},
+                {0, 8, 0, 7, 0, 4, 0, 0, 2},
+                {0, 0, 7, 0, 9, 14, 0, 0, 0},
+                {0, 0, 0, 9, 0, 10, 0, 0, 0},
+                {0, 0, 4, 14, 10, 0, 2, 0, 0},
+                {0, 0, 0, 0, 0, 2, 0, 1, 6},
+                {8, 11, 0, 0, 0, 0, 1, 0, 7},
+                {0, 0, 2, 0, 0, 0, 6, 7, 0}
+        };
+        int[] dist = new Main().shortestPath(graph, 0);
+        System.out.println("Dijkstra 结果: " + Arrays.toString(dist));
     }
 }

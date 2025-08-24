@@ -1,0 +1,1 @@
+use mysql_test;

@@ -1,7 +1,5 @@
 package leetCode.from20to30;
 
-import java.util.Arrays;
-
 class StrStr {
     // 28 https://leetcode.cn/problems/find-the-index-of-the-first-occurrence-in-a-string/
     public static int strStr(String haystack, String needle) {
