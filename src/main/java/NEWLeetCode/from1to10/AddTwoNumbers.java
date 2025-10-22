@@ -1,4 +1,4 @@
-package leetCode.from1to20;
+package NEWLeetCode.from1to10;
 
 import ob.ListNode;
 
