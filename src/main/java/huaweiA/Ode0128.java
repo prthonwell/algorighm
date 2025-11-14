@@ -19,11 +19,12 @@ public class Ode0128 {
             if (!(start == 'V' || start == 'R' || start == 'C' || start == 'B')) {
                 continue;
             }
-            HashMap<Character,Integer> map = new HashMap<>();
+            HashMap<Character,String> map = new HashMap<>();
             for (int i = 0; i < s.length(); i++) {
                 char c = s.charAt(i);
                 if (c == 'V' || c == 'R' || c == 'C' || c == 'B') {
                     StringBuilder sb = new StringBuilder();
+                    i++;
                     while (i < s.length()) {
                         char cur = s.charAt(i++);
                         if (cur >= '0' && cur <= '9') {
@@ -34,22 +35,43 @@ public class Ode0128 {
                             break;
                         }
                     }
-                    i--;
-                    int num = Integer.parseInt(sb.toString());
-                    if (map.containsKey(c)) {
+                    if (map.containsKey(c) || sb.length() > 3 || sb.isEmpty()) {
                         continue out;
                     }
-                    map.put(c, num);
+                    while (sb.length() < 3) {
+                        sb.insert(0, '0');
+                    }
+                    map.put(c, sb.toString());
+                    if (i == s.length()) {
+                        break;
+                    }
+                    i-=2;
                 } else {
                     continue out;
                 }
             }
-            if (map.size() < 3 || map.size() > 4) {
+            if (!map.containsKey('V') || !map.containsKey('R') || !map.containsKey('C')) {
                 continue;
             }
             StringBuilder sb = new StringBuilder();
-
+            sb.append('V');
+            sb.append(map.get('V'));
+            sb.append('R');
+            sb.append(map.get('R'));
+            sb.append('C');
+            sb.append(map.get('C'));
+            if (map.containsKey('B')) {
+                sb.append('B');
+                sb.append(map.get('B'));
+            }
+            res.add(sb.toString());
         }
+        if (res.isEmpty()) {
+            System.out.println("-1");
+        }else {
+            res.stream().sorted().forEach(System.out::println);
+        }
+
     }
 
 }
