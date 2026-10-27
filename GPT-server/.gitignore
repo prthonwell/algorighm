@@ -1,0 +1,10 @@
+.venv/
+venv/
+.deps/
+__pycache__/
+*.pyc
+.idea/
+.vscode/
+.DS_Store
+logs/*.txt
+!logs/.gitkeep
