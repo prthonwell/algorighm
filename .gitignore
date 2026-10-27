@@ -36,3 +36,13 @@ build/
 
 ### Mac OS ###
 .DS_Store
+
+### GPT-server (Python) ###
+GPT-server/.venv/
+GPT-server/venv/
+GPT-server/.deps/
+GPT-server/__pycache__/
+GPT-server/**/__pycache__/
+GPT-server/*.pyc
+GPT-server/logs/*.txt
+!GPT-server/logs/.gitkeep

@@ -1,0 +1,49 @@
+# GPT-server 运行配置（密钥与口令请自行填写，勿提交真实密钥到公共仓库）
+
+openai:
+  # 在引号内填入你的 OpenAI API Key
+  api_key: ""
+  # 如使用代理或兼容网关可改写；官方默认可留空或保持下方地址
+  base_url: "https://api.openai.com/v1"
+
+# 内网简易鉴权：账号密码配死在此列表
+users:
+  - account: "demo"
+    password: "demo123"
+  - account: "alice"
+    password: ""
+
+# 已注册的出图 agent：每条对应一个 images.generate 路由
+# GPT Image 系列不要写 response_format（上游不支持 url，固定 b64）
+agents:
+  - id: "dalle-2"
+    name: "DALL·E 2"
+    model: "dall-e-2"
+    defaults:
+      size: "1024x1024"
+      n: 1
+      response_format: "url"
+
+  - id: "dalle-3"
+    name: "DALL·E 3"
+    model: "dall-e-3"
+    defaults:
+      size: "1024x1024"
+      quality: "standard"
+      n: 1
+      response_format: "url"
+
+  - id: "gpt-image-1"
+    name: "GPT Image 1"
+    model: "gpt-image-1"
+    defaults:
+      size: "1024x1024"
+      quality: "auto"
+
+# 调用日志（不写返回体）相对本项目根目录
+logging:
+  file: "logs/call_records.txt"
+
+# 同时进行的出图任务上限（线程池）
+concurrency:
+  max_workers: 5
